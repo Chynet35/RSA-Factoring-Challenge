@@ -1,31 +1,29 @@
 #!/usr/bin/python3
-"""
-    RSA Factoring Challenge
-    Optional Project
-"""
-import sys
-import math
+"""factorize given set of numbers in a file to product of two small numbers"""
+from sys import argv
 
 
-def main():
-    """ Main program """
-    if len(sys.argv) != 2:
-        print("wrong length dude")
+def factorize(number_to_check):
+    """"find two small numbers that multiply to give a given number"""
+    i = 2
+
+    if number_to_check < 2:
         return
-    with open(sys.argv[1], 'r') as f:
-        f = f.readlines()
-        for line in f:
-            n = m = int(line)
-            if n % 2 == 0:
-                i = int(n / 2)
-                n = 2
-                print("{}={}*{}".format(m, i, n))
-            else:
-                for i in range(3, int(math.sqrt(m)) + 1):
-                    if n % i == 0:
-                        n = int(n / i)
-                        print("{}={}*{}".format(m, n, i))
-                        break
 
-if __name__ == "__main__":
-    main()
+    while number_to_check % i:
+        i += 1
+    print("{:.0f}={:.0f}*{:.0f}".format(number_to_check, number_to_check / i, i))
+
+if len(argv) != 2:
+    exit()
+
+try:
+    with open(argv[1]) as file:
+        line = file.readline()
+
+        while line != "":
+            number_to_check = int(line.split('\n')[0])
+            factorize(number_to_check)
+            line = file.readline()
+except:
+    pass
